@@ -4,12 +4,12 @@ let inputJam: string;
 let inputRuangan: string;
 let inputNama: string;
 let hargaAkhir: number;
-let hargaMenu: number = 0; // Inisialisasi awal agar tidak error
+let hargaMenu: number = 0; 
 
-console.log("================================" + "\n" + "Selamat Datang di Warnet TI" + "\n" + "================================");
+console.log(`================================\nSelamat Datang di Warnet TI\n================================`);
 
 inputNama = readline.question("Masukkan Nama Anda : ");
-console.log("Halo " + inputNama + "! Berikut daftar ruangan beserta harganya :" + "\n" + "1. Regular (4000/jam)" + "\n" + "2. Gaming (7000/jam)" + "\n" + "3. VIP (10000/jam)" + "\n" + "(Diskon 10% jika durasi sewa > 3 jam)");
+console.log(`Halo ${inputNama}! Berikut daftar ruangan beserta harganya :\n1. Regular (4000/jam)\n2. Gaming (7000/jam)\n3. VIP (10000/jam)\n(Diskon 10% jika durasi sewa > 3 jam)`);
 
 inputJam = readline.question("Mau main berapa jam? : ");
 let jam: number = Number(inputJam);
@@ -54,7 +54,7 @@ switch (ruangan) {
     process.exit(); // Mengganti return di luar fungsi
 }
 
-console.log("================================" + "\n" + "Jam Booking, Masukkan dalam bentuk angka" + "\n" + "1-12 = Jam 1 Pagi-12 Siang, 13-24 = Jam 1 Siang-12 Malam" + "\n" + "Contoh : 1 = Jam 1 Pagi, 13 = Jam 1 Siang" + "\n" + "(Diskon 5% jika booking jam pagi-siang)");
+console.log(`================================\nJam Booking, Masukkan dalam bentuk angka\n1-12 = Jam 1 Pagi-12 Siang, 13-24 = Jam 1 Siang-12 Malam\nContoh : 1 = Jam 1 Pagi, 13 = Jam 1 Siang\n(Diskon 5% jika booking jam pagi-siang)`);
 
 let inputJamBooking = readline.question("Masukkan Jam Booking : ");
 let jamBooking: number = Number(inputJamBooking);
@@ -80,19 +80,19 @@ if (namaRuangan === "VIP") {
   bonusR = true;
   if (bonusR === true && jamBooking > 12) {
     bonusMenu = "Kopi";
-    console.log("Anda mendapat bonus anniversary diatas jam 12 yaitu " + bonusMenu + "! Nanti akan kami antar ke meja anda.");
+    console.log(`Anda mendapat bonus anniversary diatas jam 12 yaitu ${bonusMenu}! Nanti akan kami antar ke meja anda.`);
   }
 } else if (namaRuangan === "Gaming") {
   bonusR = true;
   if (bonusR === true && jamBooking > 12) {
     bonusMenu = "Susu";
-    console.log("Anda mendapat bonus anniversary diatas jam 12 yaitu " + bonusMenu + "! Nanti akan kami antar ke meja anda.");
+    console.log(`Anda mendapat bonus anniversary diatas jam 12 yaitu ${bonusMenu}! Nanti akan kami antar ke meja anda.`);
   }
 } else {
   bonusR = false;
 }
 
-console.log("================================" + "\n" + "Pemesanan Menu WAJIB Minimal 1" + "\n" + "1. Susu (3000)" + "\n" + "2. Kopi (4000)" + "\n" + "3. Kentang Goreng (7000)" + "\n" + "4. Pisang Coklat (5000)");
+console.log(`================================\nPemesanan Menu WAJIB Minimal 1\n1. Susu (3000)\n2. Kopi (4000)\n3. Kentang Goreng (7000)\n4. Pisang Coklat (5000)`);
 
 let inputJumlahMenu = readline.question("Masukkan jumlah menu : ");
 let inputMenu = readline.question("Pilih menu : ");
@@ -134,7 +134,7 @@ let diskonMember: number = 0.05;
 if (statusMember === "ya") {
   isMember = true;
   if (isMember === true) {
-    console.log("Selamat datang lagi member! Kamu akan mendapat potongan 5% dari total tagihanmu" + "\n" + "Dan meningkat menjadi 7% bila total tagihan > 50000");
+    console.log(`Selamat datang lagi member! Kamu akan mendapat potongan 5% dari total tagihanmu\nDan meningkat menjadi 7% bila total tagihan > 50000`);
   }
 } else if (statusMember === "tidak") {
   isMember = false;
@@ -163,16 +163,16 @@ if (isMember === true && hargaAkhir <= 50000) {
   hargaAkhir = hargaAwal + hargaMenu;
 }
 
-console.log("================================");
+console.log(`================================`);
 console.log("        STRUK WARNET TI");
-console.log("================================");
-console.log("Nama      : " + inputNama);
-console.log("Ruangan   : " + namaRuangan);
-console.log("Durasi    : " + jam + " jam");
+console.log(`================================`);
+console.log(`Nama      : ${inputNama}`);
+console.log(`Ruangan   : ${namaRuangan}`);
+console.log(`Durasi    : ${jam} jam`);
 console.log("--------------------------------");
-console.log("Biaya sewa: Rp" + hargaAwal);
-console.log("Biaya menu: Rp" + hargaMenu);
+console.log(`Biaya sewa: Rp${hargaAwal}`);
+console.log(`Biaya menu: Rp${hargaMenu}`);
 console.log("--------------------------------");
-console.log("TOTAL     : Rp" + hargaAkhir);
-console.log("================================");
+console.log(`TOTAL     : Rp${hargaAkhir}`);
+console.log(`================================`);
 console.log("Terima kasih, selamat bermain!");
