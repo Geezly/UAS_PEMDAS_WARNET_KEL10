@@ -2,37 +2,185 @@ import * as readline from "readline-sync";
 
 let inputJam: string;
 let inputRuangan: string;
-let inputNama: string;
+let inputNama: string = "";
 let hargaAkhir: number;
 let hargaMenu: number = 0;
-let inputNIM: string = ""
-let levelMember: string;
+let inputNIM: string = "";
+let levelMember: string = "";
 const panjangNIM: number = 15;
 
-console.log(`================================\nSelamat Datang di Warnet TI\n================================`);
+//---------------------------------------------------------------------------------------------------------------------
+//=====================================================================================================================
+//=============Database (Array)=============
+let member: {
+    inputNIM: string;
+    inputNama: string;
+    levelMember: string;
+}[] = [
+    { inputNIM: "263140700000001", inputNama: "Budi", levelMember: "Newbie" },
+    { inputNIM: "263140700000002", inputNama: "Rafi", levelMember: "Pro" },        //Data Dummy
+    { inputNIM: "263140700000003", inputNama: "Satria", levelMember: "Hackertzy" },
+];
+//=====================================================================================================================
+//=============Tempat Function=============
 
-inputNama = readline.question("Masukkan Nama Pelanggan : ");
-
-function inputNIMValid(): string {       
-  let valid: boolean = false;
-  do {
-    inputNIM = readline.question(`Masukkan NIM (${panjangNIM} digit) : `);
-    valid = validasiNIM();
-    if (!valid) {
-      console.log(`NIM tidak valid! Harus ${panjangNIM} digit angka.`);
-    }
-  } while (!valid);
-  return inputNIM;
+function validasiNama(): boolean { // Function Validasi Nama
+  if (inputNama.length === 0) {
+    return false;
+  } else if (inputNama.length < 3) {
+    return false;
+  }
+  return true;
 }
-function validasiNIM(): boolean {
+
+function inputNamaValid(): string { // Function Loop Validasi Nama
+  let namaValid: boolean = false;
+  do {
+    inputNama = readline.question("Masukkan Nama Pelanggan : ");
+    namaValid = validasiNama();
+    if (!namaValid) {
+      console.log(`Nama tidak valid! Tidak boleh kosong dan harus lebih dari 3 huruf.`);
+    }
+  } while (!namaValid);
+  return inputNama;
+}
+
+function validasiNIM(): boolean { // Function Validasi NIM
   if (inputNIM.length !== panjangNIM) {
     return false;
   }
   return true;
 }
+
+function inputNIMValid(): string { // Function Loop Validasi NIM
+  let NIMValid: boolean = false;
+  do {
+    inputNIM = readline.question(`Masukkan NIM (${panjangNIM} digit) : `);
+    NIMValid = validasiNIM();
+    if (!NIMValid) {
+      console.log(`NIM tidak valid! Harus ${panjangNIM} digit angka.`);
+    }
+  } while (!NIMValid);
+  return inputNIM;
+}
+
+function menuUtama(): void { //Function Menu Utama
+  let pilihanMenu: string = "";
+
+  do {
+    console.log(`=======================================`);
+    console.log("MENU UTAMA PENGATURAN MEMBER WARNET TI");
+    console.log(`=======================================`);
+    console.log("1. Tambah Member");
+    console.log("2. Lihat Member");
+    console.log("3. Ubah Member");
+    console.log("4. Hapus Member");
+    console.log("5. Cari Member");
+    console.log("0. Keluar");
+
+    console.log(`================================`);
+
+    pilihanMenu = readline.question("Pilih menu (0-5) : ");
+    switch (pilihanMenu) {
+      case "1":
+        console.log("Menu Tambah Member dipilih.");
+        tambahMember();
+        break;
+      case "2":
+        console.log("Menu Lihat Member dipilih.");
+        break;
+      case "3":
+        console.log("Menu Ubah Member dipilih.");
+        break;
+      case "4":
+        console.log("Menu Hapus Member dipilih.");
+        break;
+      case "5":
+        console.log("Menu Cari Member dipilih.");
+        break;
+      case "0":
+        console.log("Anda keluar dari mode pengaturan member!");
+        break;
+      default:
+        console.log("Pilihan tidak valid! Masukkan angka 0-5.");
+    }
+  } while (pilihanMenu !== "0");
+}
+
+function pilihLevelMember(): void { // Function Pilih Level Member
+  let inputLevel: string = "";      
+  let pilihanLevel: number = 0;
+  let levelValid: boolean = false;
+
+  do {
+    inputLevel = readline.question("Pilih level member (1. Newbie, 2. Pro, 3. Hackertzy) : ");
+    pilihanLevel = Number(inputLevel);
+
+    if (inputLevel.length === 0) {
+      console.log("Pilihan level tidak boleh kosong!");
+    } else if (pilihanLevel < 0) {
+      console.log("Pilihan level tidak boleh negatif!");
+    } else if (pilihanLevel !== 1 && pilihanLevel !== 2 && pilihanLevel !== 3) {
+      console.log("Pilihan level harus angka 1, 2, atau 3!");
+    } else {
+      levelValid = true;            
+    }
+  } while (!levelValid);
+
+  switch (pilihanLevel) {
+    case 1:
+      levelMember = "Newbie";
+      console.log('Pelanggan ditambahkan ke data member dengan level Newbie!')
+      break;
+    case 2:
+      levelMember = "Pro";
+      console.log('Pelanggan ditambahkan ke data member dengan level Pro!')
+      break;
+    case 3:
+      levelMember = "Hackertzy";
+      console.log('Pelanggan ditambahkan ke data member dengan level Hackertzy!')
+      break;
+    default:
+      console.log("Pilihan level member tidak valid!")     // Sebagai syarat saja
+      break;
+  }
+}
+
+function tambahMember(): void { // Function Create Member
+  console.log("===== TAMBAH MEMBER =====");
+
+   if (cariIndexNIM() !== -1) {
+        console.log("Member sudah terdaftar! Jika ingin update level member silahkan ke menu 3. ");
+        return;
+    }
+  pilihLevelMember(); //
+
+  member.push({ 
+    inputNIM: inputNIM, 
+    inputNama: inputNama, 
+    levelMember: levelMember 
+  });
+
+  console.log("Member baru berhasil ditambahkan!");
+  console.log(`NIM   : ${inputNIM}\nNama  : ${inputNama}\nLevel : ${levelMember}`);
+  console.log(`Total member sekarang : ${member.length} orang`);
+}
+
+function cariIndexNIM(): number { // Function Cek NIM di Array
+    const daftarNIM: string[] = member.map(m => m.inputNIM);
+
+    return daftarNIM.indexOf(inputNIM);
+}
+//=====================================================================================================================
+//---------------------------------------------------------------------------------------------------------------------
+
+console.log(`================================\nSelamat Datang di Warnet TI\n================================`);
+
+inputNamaValid();
 inputNIMValid();
 
 console.log(`Halo ${inputNama}! Berikut daftar ruangan beserta harganya :\n1. Regular (4000/jam)\n2. Gaming (7000/jam)\n3. VIP (10000/jam)\n(Diskon 10% jika durasi sewa > 3 jam)`);
+
 inputJam = readline.question("Masukkan durasi jam : ");
 let jam: number = Number(inputJam);
 
@@ -146,60 +294,6 @@ switch (menu) {
     console.log("Pilihan minuman tidak valid");
     process.exit();
 }
-
-let member: {
-    inputNIM: string;
-    inputNama: string;
-    levelMember: string;
-}[] = [
-    { inputNIM: "263140700000001", inputNama: "Budi", levelMember: "Newbie" },
-    { inputNIM: "263140700000002", inputNama: "Rafi", levelMember: "Pro" },
-    { inputNIM: "263140700000003", inputNama: "Satria", levelMember: "Hackertzy" },
-];
-
-function menuUtama(): void {
-  let pilihanMenu: string = "";
-
-  do {
-    console.log(`=======================================`);
-    console.log("MENU UTAMA PENGATURAN MEMBER WARNET TI");
-    console.log(`=======================================`);
-    console.log("1. Tambah Member");
-    console.log("2. Lihat Member");
-    console.log("3. Ubah Member");
-    console.log("4. Hapus Member");
-    console.log("5. Cari Member");
-    console.log("0. Keluar");
-
-    console.log(`================================`);
-
-    pilihanMenu = readline.question("Pilih menu (0-5) : ");
-    switch (pilihanMenu) {
-      case "1":
-        console.log("Menu Tambah Member dipilih.");
-        break;
-      case "2":
-        console.log("Menu Lihat Member dipilih.");
-        break;
-      case "3":
-        console.log("Menu Ubah Member dipilih.");
-        break;
-      case "4":
-        console.log("Menu Hapus Member dipilih.");
-        break;
-      case "5":
-        console.log("Menu Cari Member dipilih.");
-        break;
-      case "0":
-        console.log("Anda keluar dari mode pengaturan member!");
-        break;
-      default:
-        console.log("Pilihan tidak valid! Masukkan angka 0-5.");
-    }
-  } while (pilihanMenu !== "0");
-}
-
-menuUtama();
 
 let inputMember = readline.question("Apakah pelanggan member? (ya/tidak) : ");
 let isMember: boolean = false;
